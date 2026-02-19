@@ -7,7 +7,7 @@
         },
         {
             "source": "/(.*)",
-            "destination": "/frontend/$1"
+            "destination": "/frontend/dist/$1"
         }
     ],
     "redirects": [
@@ -15,10 +15,5 @@
             "source": "/frontend/",
             "destination": "/"
         }
-    ],
-    "functions": {
-        "api/index.py": {
-            "runtime": "@vercel/python"
-        }
-    }
+    ]
 }
