@@ -1,6 +1,11 @@
+import os
+import sys
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+
+# Ensure the current directory is in the path for Vercel
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 app = FastAPI(title="MySwissToolbox API", version="1.0.0")
 
