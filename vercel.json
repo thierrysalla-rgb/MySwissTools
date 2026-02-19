@@ -3,22 +3,11 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "/api/index.py"
+            "destination": "api/index.py"
         },
         {
             "source": "/(.*)",
-            "destination": "/frontend/dist/$1"
+            "destination": "frontend/dist/$1"
         }
-    ],
-    "redirects": [
-        {
-            "source": "/frontend/",
-            "destination": "/"
-        }
-    ],
-    "functions": {
-        "api/*.py": {
-            "runtime": "python3.12"
-        }
-    }
+    ]
 }
