@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from logic.can import analyze_can_id
+from ..logic.can import analyze_can_id
 
 router = APIRouter(prefix="/can", tags=["CAN"])
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from logic.ieee754 import float_to_hex, hex_to_float
+from ..logic.ieee754 import float_to_hex, hex_to_float
 
 router = APIRouter(prefix="/ieee754", tags=["IEEE754"])
 

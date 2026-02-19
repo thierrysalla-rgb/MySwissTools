@@ -64,3 +64,56 @@ def decode_cds_8bytes(hex_str: str) -> dict:
         "milliseconds": millis,
         "microseconds": micros_remainder
     }
+
+def encode_cuc_7bytes(dt: datetime) -> str:
+    """
+    Encodes a datetime object to CCSDS Unsegmented Time Code (CUC) - 7 Bytes.
+    Format: 4 bytes Seconds, 3 bytes Fine Time (2^-24)
+    """
+    delta = dt - CCSDS_EPOCH
+    total_seconds = delta.total_seconds()
+    
+    seconds_int = int(total_seconds)
+    microseconds = delta.microseconds
+    
+    # Fractional part: (microseconds / 1_000_000) * 2^24
+    fractional_int = int((microseconds / 1_000_000) * (2**24))
+    
+    # Ensure fits in 3 bytes
+    if fractional_int > 0xFFFFFF:
+        fractional_int = 0xFFFFFF
+        
+    return f"{seconds_int:08X}{fractional_int:06X}"
+
+def encode_cds_8bytes(dt: datetime) -> str:
+    """
+    Encodes a datetime object to CCSDS Day Segmented Time Code (CDS) - 8 Bytes.
+    Format: 2 bytes Days, 4 bytes Milliseconds, 2 bytes Microseconds.
+    """
+    delta = dt - CCSDS_EPOCH
+    days = delta.days
+    
+    # Milliseconds of the day
+    seconds_in_day = delta.seconds
+    microseconds = delta.microseconds
+    
+    total_milliseconds_in_day = (seconds_in_day * 1000) + (microseconds // 1000)
+    microseconds_remainder = microseconds % 1000
+    
+    return f"{days:04X}{total_milliseconds_in_day:08X}{microseconds_remainder:04X}"
+
+def convert_cuc_to_cds(cuc_hex: str) -> str:
+    """
+    Converts CUC Hex to CDS Hex.
+    """
+    decoded = decode_cuc_7bytes(cuc_hex)
+    dt = datetime.fromisoformat(decoded["iso"])
+    return encode_cds_8bytes(dt)
+
+def convert_cds_to_cuc(cds_hex: str) -> str:
+    """
+    Converts CDS Hex to CUC Hex.
+    """
+    decoded = decode_cds_8bytes(cds_hex)
+    dt = datetime.fromisoformat(decoded["iso"])
+    return encode_cuc_7bytes(dt)

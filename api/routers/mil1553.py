@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from logic.mil1553 import decommutate_command_word, commutate_command_word, CommandWord
+from ..logic.mil1553 import decommutate_command_word, commutate_command_word, CommandWord
 
 router = APIRouter(prefix="/mil1553", tags=["MIL-STD-1553"])
 

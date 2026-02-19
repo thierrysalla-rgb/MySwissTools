@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from logic.generic import decommutate_generic, DecommutateRequest
+from ..logic.generic import decommutate_generic, DecommutateRequest
 
 router = APIRouter(prefix="/generic", tags=["Generic Decommutator"])
 
