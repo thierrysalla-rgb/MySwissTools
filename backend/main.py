@@ -1,6 +1,6 @@
 import os
 import sys
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, APIRouter
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -30,9 +30,13 @@ async def root():
     return {"message": "Welcome to MySwissToolbox API"}
 
 from routers import ieee754, mil1553, spw, can, generic, time_ccsds
-app.include_router(ieee754.router)
-app.include_router(mil1553.router)
-app.include_router(spw.router)
-app.include_router(can.router)
-app.include_router(generic.router)
-app.include_router(time_ccsds.router)
+
+api_router = APIRouter(prefix="/api")
+api_router.include_router(ieee754.router)
+api_router.include_router(mil1553.router)
+api_router.include_router(spw.router)
+api_router.include_router(can.router)
+api_router.include_router(generic.router)
+api_router.include_router(time_ccsds.router)
+
+app.include_router(api_router)
