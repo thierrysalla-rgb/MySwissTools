@@ -1,11 +1,13 @@
 import os
 import sys
+
+# Ensure the parent directory (project root) is in the path
+# This allows 'from api.routers import ...' to work, preserving package structure
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+
 from fastapi import FastAPI, Request, APIRouter
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-
-# Ensure the current directory is in the path for Vercel
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 app = FastAPI(title="MySwissToolbox API", version="1.0.0")
 
@@ -29,7 +31,8 @@ async def global_exception_handler(request: Request, exc: Exception):
 async def root():
     return {"message": "Welcome to MySwissToolbox API"}
 
-from routers import ieee754, mil1553, spw, can, generic, time_ccsds
+# Import routers from the 'api' package
+from api.routers import ieee754, mil1553, spw, can, generic, time_ccsds
 
 api_router = APIRouter(prefix="/api")
 api_router.include_router(ieee754.router)
